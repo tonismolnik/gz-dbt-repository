@@ -3,13 +3,10 @@ version: 2
 sources:
   - name: raw #dataset on BQ
     schema: gwz_raw_data
-  
-  tables:
+    tables:
     - name: sales
       identifier: raw_gz_sales #BQtable
-
     - name: product
       identifier: raw_gz_product #BQtable
-
     - name: ship
       identifier: raw_gz_ship #BQtable
