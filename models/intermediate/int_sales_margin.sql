@@ -1,19 +1,18 @@
 WITH sales_data AS (
 
-select
-    orders_id
-    , products_id
-    , revenue
-    , quantity
-FROM {{ ref('stg_raw__sales') }}
+    select
+        orders_id
+        , products_id
+        , revenue
+        , quantity
+    FROM {{ref('int_sales_margin')}}
 ),
 
 product_data AS (
-
-select
-    products_id
-    , purchse_price AS purchase_price
-FROM {{ ref('stg_raw__product') }}
+    SELECT
+        products_id
+        , purchse_price
+    FROM {{ref('stg_raw__product')}}
 )
 
 SELECT
@@ -21,7 +20,10 @@ SELECT
     , s.products_id
     , s.revenue
     , s.quantity
-    , p.purchase_price
+    , CAST(p.purchse_price AS FLOAT64) AS purchase_price
+    , ROUND (CAST(purchse_price AS FLOAT64)*quantity, 2) AS purchase_cost
+    , ROUND(revenue-ROUND(CAST(purchse_price AS FLOAT64)*quantity, 2), 2) AS margin
 
-FROM sales_data s
-JOIN product_data p ON s.products_id=p.products_id
+FROM {{ ref('stg_raw__sales') }} s
+LEFT JOIN {{ref ('stg_raw__product')}} p
+    USING (products_id)
