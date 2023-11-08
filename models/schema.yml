@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+  - name: raw #dataset on BQ
+    schema: gz_raw_data
+    description: raw data set
+    tables:
+      - name: sales
+        identifier: raw_gz_sales #BQtable
+        description: sales table greenweez
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: key of orders
+          - name: pdt_id
+            description: key of products        
+          - name: revenue
+            description: price 
+          - name: quantity
+            description: amount of pieces ordered
+       
+              
+      - name: product
+        identifier: raw_gz_product #BQtable
+        description: xxx
+        columns:
+          - name: products_id
+            description: product
+            tests:
+              - unique
+              - not_null
+          - name: purchSE_PRICE
+            description: purchase price
+      - name: ship
+        identifier: raw_gz_ship #BQtable
+        description: xx
+        columns:
+          - name: orders_id
+            description: dddd
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: sssss
+          - name: log_cost
+            description: dddd
+          - name: ship_cost
+            description: xxxxx
